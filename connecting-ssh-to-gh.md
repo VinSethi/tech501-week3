@@ -11,7 +11,6 @@ eval `ssh-agent -s`
 ssh-add vineet-github-key
 
 ssh -T git@github.com
-![Screenshot of terminal ](<Screenshot 2025-02-04 154547.png>)
 
 create test repo
 
