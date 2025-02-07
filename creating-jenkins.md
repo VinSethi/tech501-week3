@@ -43,8 +43,47 @@
 * Toward the bottom cd into the folder and then npm install and npm start 
 
 ### Job2
+* Create dec branch by `git checkout -b dev`
 * Create the same as we did for job1 
 * To connect to job1 to job 2
 ![Screenshots](<Screenshot 2025-02-06 164616.png>)
 * Make sure to select the SSH agent box as well and select your credentials
 ![Screenshot](<Screenshot 2025-02-06 170234.png>)
+Plug in method: 
+1. Go to SCM section 
+2. Put name of repo as origin 
+3. Next section as main
+4. Get rid of the execute shell
+5. Go to post build action, add git publisher
+6. Select push only if succeed and select merge option
+7. Again in the sections put origin first and then main
+
+### Job 3
+* Change front page of the app = go into the repo of where the app is and into the dev branch, nano into index file
+* Set up the same as per usual as stated in job 2
+* connect Job 3 to job 2 by going into job 2 and adding the project name of job 3
+
+Blocker:
+``
+#!/bin/bash
+
+#Define Variables
+EC2_USER="ubuntu"  # Use "ec2-user" for Amazon Linux
+EC2_PUBLIC_IP="34.254.231.47"
+APP_DIRECTORY="~/tech501-sparta-app/app"  # Path to your application on EC2
+START_COMMAND="pm2 restart app"  # Adjust based on your app (e.g., `systemctl restart myapp`)
+
+#Copy updated code from Jenkins workspace to EC2 using SCP
+scp -r -o StrictHostKeyChecking=no * $EC2_USER@$EC2_PUBLIC_IP:$APP_DIRECTORY
+
+#SSH into EC2 and restart the application
+ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_PUBLIC_IP << EOF
+    cd $APP_DIRECTORY
+    $START_COMMAND  # Restart the application
+EOF
+``
+![Screenshot](<Screenshot 2025-02-07 164930.png>)
+
+New updated code:
+![Screenshot](<Screenshot 2025-02-07 175657.png>)
+* Have most of it working the issue is now pm2 command which is not being found, minor issue which is causing it to not display on the ec2 instance.
