@@ -31,20 +31,22 @@
 * Difference between Continuous Deployment and Continuous Delivery is deployment automates the release of each completed chnage and delivery automates the testing performed on chnages stored in CI
 
 ## Setting up CI/CD pipeline
-### Job 1
+### Job 1 - Testing the code and setting up the trigger
 ![alt text](<Screenshot 2025-02-06 171036.png>)
 * On GitHub paste the new public key into the repo settings
+* Connect the Jenkins to github by pasting private key to Jenkins
 
 ![Screenshot of jenkins setup](<Screenshot 2025-02-06 164239.png>)
-* Connect the Jenkins to github by pasting private key to Jenkins
 * Set up the webhook, by ticking the box 'GitHub hook trigger...'
 * Set up webhook from GitHub to send to Jenkins by going onto settings and clicking on Webhooks and then add the url by adding the server Id with the port.
 ![Screenshot](<Screenshot 2025-02-06 164448.png>)
 * Toward the bottom cd into the folder and then npm install and npm start 
 
-### Job2
-* Create dec branch by `git checkout -b dev`
+### Job2 - Merge the Dev to the main 
+* Create dev branch by `git checkout -b dev`
 * Create the same as we did for job1 
+* Get rid of the hook in job 2 as we don't need it 
+ ![Screenshot](<Screenshot 2025-02-10 162834.png>)
 * To connect to job1 to job 2
 ![Screenshots](<Screenshot 2025-02-06 164616.png>)
 * Make sure to select the SSH agent box as well and select your credentials
@@ -53,13 +55,13 @@ Plug in method:
 1. Go to SCM section 
 2. Put name of repo as origin 
 3. Next section as main
+    ![Screenshot](<Screenshot 2025-02-10 162953.png>)
 4. Get rid of the execute shell
 5. Go to post build action, add git publisher
 6. Select push only if succeed and select merge option
 7. Again in the sections put origin first and then main
 
-### Job 3
-* Change front page of the app = go into the repo of where the app is and into the dev branch, nano into index file
+### Job 3 - Pulls code from job 1, scp from jenkin to ec2 instance, deploys the changes made to the code
 * Set up the same as per usual as stated in job 2
 * connect Job 3 to job 2 by going into job 2 and adding the project name of job 3
 
@@ -87,3 +89,15 @@ EOF
 New updated code:
 ![Screenshot](<Screenshot 2025-02-07 175657.png>)
 * Have most of it working the issue is now pm2 command which is not being found, minor issue which is causing it to not display on the ec2 instance.
+
+Solution:
+![Screenshot](<Screenshot 2025-02-10 152049.png>)
+* The complication and reason it wasn't working was due to overcomplicating it with environmental variables. 
+* The issue was essentially the path from where it should scp from to the instance wasn't correct
+
+* Change front page of the app = go into the repo of where the app is and into the dev branch, nano into index file
+![Screenshot of terminal](<Screenshot 2025-02-10 163202.png>)
+
+Screenshot of it working:
+![alt text](<Screenshot 2025-02-10 151333.png>)
+![alt text](<Screenshot 2025-02-10 151731.png>)
