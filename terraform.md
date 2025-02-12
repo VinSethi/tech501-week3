@@ -45,3 +45,16 @@
 * terraform destroy
 
 
+## Creating an 2 tier Architecture in Azure
+### Steps to create
+1. Provider block setup
+2. Variables for RG and region
+3. Define VNET and subnet
+4. Create a publiv ip for the public VM - make sure to put static as 'allocation method'
+5. Make a NIC
+6. Reference the key you want to use
+7. Make VM
+8. Add key you referenced
+9. Add disk
+10. Add source image - make sure to define the image using a data block to define and then specify source image id
+
