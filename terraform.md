@@ -37,17 +37,17 @@
 
 ### Terraform commands
 ### Non-destructive
-* terraform init
-* terraform plan
-* terraform fmt
+* terraform init - Initialise terraform
+* terraform plan- Creates the plan and shows you the plan as well
+* terraform fmt- Formats all of the document correct for terraform
 ### Destructive
-* terraform apply
-* terraform destroy
+* terraform apply- This applies all of the changes requested
+* terraform destroy- This destroys all of the resources created by terraform 
 
 
 ## Creating an 2 tier Architecture in Azure
 ### Steps to create
-1. Provider block setup
+1. Provider block setup- You need to specify the platform, for this case its azure as well as you need to specify the subscription 
 2. Variables for RG and region
 3. Define VNET and subnet
 4. Create a publiv ip for the public VM - make sure to put static as 'allocation method'
@@ -58,3 +58,16 @@
 9. Add disk
 10. Add source image - make sure to define the image using a data block to define and then specify source image id
 
+### Task to create the 2 tier with terraform
+* I was able to create the Sparta app using terraform which used user data to run the app on launch
+  ![Screenshot](<Screenshot 2025-02-13 111110.png>)
+* Blocker - I was unable to successfully get the DB vm working using the terraform. This was due to:
+  * I overcomplicated it by already stating some sections such as the vnet and then re-referencing it in the DB vm file of terraform which made it clash and kept stating errors  
+
+### git ignore File
+* This is used to specify the files you don't want to display on the git repo for public as they contain sensitive information
+* You can create this file by naming it '.gitignore'
+
+### Creating Variables
+* Using variables allow you to store all the sensitive information all in one file, which of course then gets put into the git ignore file
+* Using variables allows you to reference them whereever they need to be used rather than writing or copying all the previous code out.
